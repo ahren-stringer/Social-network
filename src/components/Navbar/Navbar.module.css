@@ -1,0 +1,18 @@
+.nav{
+    grid-area: n;
+    background-color: plum;
+}
+.item a{
+    color: rgb(248, 233, 225);
+    text-decoration: none;
+    transition-property: color;
+    transition-duration: 0.3s;
+    font-weight: 500;
+    font-size: 17px;
+}
+.item a:hover{
+    color:rebeccapurple;
+}
+.item a.active {
+    color:rebeccapurple;
+}

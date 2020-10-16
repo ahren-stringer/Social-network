@@ -1,0 +1,8 @@
+.ava_img{
+    width: 70px;
+    height: 70px;
+    border-radius: 30%;
+}
+.active{
+    font-weight: 900;
+}

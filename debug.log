@@ -1,0 +1,11 @@
+[1005/005435.826:ERROR:process_reader_win.cc(123)] NtOpenThread: {Отказано в доступе} Процесс запросил доступ к объекту, но права на доступ не предоставлены. (0xc0000022)
+[1005/005435.842:ERROR:process_reader_win.cc(123)] NtOpenThread: {Отказано в доступе} Процесс запросил доступ к объекту, но права на доступ не предоставлены. (0xc0000022)
+[1005/005435.896:ERROR:process_reader_win.cc(123)] NtOpenThread: {Отказано в доступе} Процесс запросил доступ к объекту, но права на доступ не предоставлены. (0xc0000022)
+[1005/005435.894:ERROR:process_reader_win.cc(123)] NtOpenThread: {Отказано в доступе} Процесс запросил доступ к объекту, но права на доступ не предоставлены. (0xc0000022)
+[1005/005435.810:ERROR:process_reader_win.cc(123)] NtOpenThread: {Отказано в доступе} Процесс запросил доступ к объекту, но права на доступ не предоставлены. (0xc0000022)
+[1005/005436.066:ERROR:exception_snapshot_win.cc(99)] thread ID 8608 not found in process
+[1005/005436.067:ERROR:exception_snapshot_win.cc(99)] thread ID 5908 not found in process
+[1005/005436.067:ERROR:exception_snapshot_win.cc(99)] thread ID 6060 not found in process
+[1005/005436.067:ERROR:exception_snapshot_win.cc(99)] thread ID 4488 not found in process
+[1005/005436.079:ERROR:exception_snapshot_win.cc(99)] thread ID 4156 not found in process
+[1013/183115.917:ERROR:directory_reader_win.cc(43)] FindFirstFile: Системе не удается найти указанный путь. (0x3)
