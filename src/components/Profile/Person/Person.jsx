@@ -1,7 +1,7 @@
 import React from 'react';
 import Preloader from '../../common/PreLoader';
 import s from './Person.module.css'
-import PersonStatus from './PersonStatus';
+import PersonStatusHook from './PersonStatusHook';
 
 const Person=(props)=>{
   if (!props.profile){
@@ -14,7 +14,7 @@ const Person=(props)=>{
         <div className={s.image}>
           <img src='https://www.metoffice.gov.uk/binaries/content/gallery/metofficegovuk/hero-images/advice/maps-satellite-images/satellite-image-of-globe.jpg'></img>
         </div>
-        <PersonStatus status={props.status} UpdateProfileStatus={props.UpdateProfileStatus}/>
+        <PersonStatusHook status={props.status} UpdateProfileStatus={props.UpdateProfileStatus}/>
         <div>
           {props.profile.fullName}
         </div>
