@@ -19,7 +19,7 @@ const Person=(props)=>{
           {props.profile.fullName}
         </div>
         <div>
-          <img src={props.profile.photos.small} alt=""/>
+          <img src={props.profile.photos.large} alt=""/>
         </div>
       </div>
   )}

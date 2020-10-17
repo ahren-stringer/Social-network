@@ -11,7 +11,6 @@ let mapStateToProps=(state)=>{
 export const WithRedirectComponent=(Component)=>{
     class WrapperComponent extends React.Component{
         render(){
-            //debugger
             if (!this.props.isAutorised) return <Redirect to='/login'/>
             return <Component {...this.props}/>
         }

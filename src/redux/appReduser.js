@@ -1,13 +1,13 @@
-import React from 'react';
-import { authAPI } from '../api/api';
 import {isAutoriseThunk} from './authReduser'
+
+const INITIALIZED='app/INITIALIZED';
 
 let init={
    initialized:false
 };
 let appReduser=(state=init, action)=>{   
     switch(action.type){
-        case 'INITIALIZED':
+        case INITIALIZED:
          return{
            ...state,
            initialized:true
@@ -16,8 +16,7 @@ let appReduser=(state=init, action)=>{
         return state
 };
 };
-export const initialize=()=> ({type: 'INITIALIZED'});
-// export const isAutorise=(isAutorised)=> ({type: 'IS-AUTORISE', isAutorised});
+export const initialize=()=> ({type: INITIALIZED});
 
 export const initializedThunk=()=>
     (dispatch)=>{

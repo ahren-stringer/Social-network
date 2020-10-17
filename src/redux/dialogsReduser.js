@@ -1,4 +1,5 @@
-import React from 'react';
+const SEND_MESSAGE='dialogs/SEND-MESSAGE';
+const UPDATE_NEW_MESSAGE_TEXT='dialogs/UPDATE-NEW-MESSAGE-TEXT';
 
 let init={
     contacts:[
@@ -19,7 +20,7 @@ let init={
 };
 let dialogsReduser=(state=init, action)=>{   
     switch(action.type){
-        case 'SEND-MESSAGE':
+        case SEND_MESSAGE:
           let message={
             id:6,
             message:state.newMessageText,
@@ -32,19 +33,15 @@ let dialogsReduser=(state=init, action)=>{
          state.contacts.push(contact)
           state.newMessageText='';
           return state
-        case 'UPDATE-NEW-MESSAGE-TEXT':
+        case UPDATE_NEW_MESSAGE_TEXT:
           state.newMessageText=action.newText;
           return state
         default:
         return state
 };
 };
-export const addMessageAction=()=> ({
-    type: 'SEND-MESSAGE'
-  });
+export const addMessageAction=()=> ({type: SEND_MESSAGE});
   
-  export const updateNewMessageTextAction=(text)=> ({
-    type: 'UPDATE-NEW-MESSAGE-TEXT', newText: text
-  });
+export const updateNewMessageTextAction=(text)=> ({type: UPDATE_NEW_MESSAGE_TEXT, newText: text});
 
 export default dialogsReduser

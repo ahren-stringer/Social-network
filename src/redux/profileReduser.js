@@ -1,5 +1,10 @@
 import { profileAPI } from "../api/api";
 
+const SET_USER_PROFILE='profile/SET-USER-PROFILE';
+const ADD_POST='profile/ADD-POST'
+const UPDATE_NEW_POST_TEXT='profile/UPDATE-NEW-POST-TEXT';
+const SET_PROFILE_STATUS='profile/SET-PROFILE-STATUS';
+
 let init={
         posts:[
           {id:1,name:'John', message:'Hi'},
@@ -12,7 +17,7 @@ let init={
 
 let profileReduser=(state=init, action)=>{  
     switch (action.type){
-        case 'ADD-POST':{
+        case ADD_POST:{
         let  newMessage={
           id:3,
           name:'Poul',
@@ -24,46 +29,40 @@ let profileReduser=(state=init, action)=>{
         stateCopy.newPostText=''
         return stateCopy
       }
-      case 'UPDATE-NEW-POST-TEXT':{
+      case UPDATE_NEW_POST_TEXT:{
         let stateCopy={...state};
         stateCopy.newPostText=action.newText;
         return stateCopy
       }
-      case 'SET-USER-PROFILE':{
+      case SET_USER_PROFILE:{
         return {...state, profile: action.profile}
       }
-      case 'SET-PROFILE-STATUS':{
+      case SET_PROFILE_STATUS:{
         return {...state, profileStatus: action.status}
       }
       default:
         return state
     }
 };
-export const SetUserProfile=(profile)=> ({type: 'SET-USER-PROFILE', profile})
-export const addPostAction=()=> ({type: 'ADD-POST'})
-export const updateNewPostTextAction=(text)=> ({type: 'UPDATE-NEW-POST-TEXT', newText: text})
-export const SetProfileStatus=(status)=> ({type: 'SET-PROFILE-STATUS', status})
+export const SetUserProfile=(profile)=> ({type: SET_USER_PROFILE, profile})
+export const addPostAction=()=> ({type: ADD_POST})
+export const updateNewPostTextAction=(text)=> ({type: UPDATE_NEW_POST_TEXT, newText: text})
+export const SetProfileStatus=(status)=> ({type: SET_PROFILE_STATUS, status})
 
-export const SetUserProfileThunk=(userId)=> (dispatch) => {
-  // this.props.TogglePreloader(false)
-          profileAPI.setProfile(userId).then(response=>{
-            dispatch(SetUserProfile(response.data));
-          });
+export const SetUserProfileThunk=(userId)=> async(dispatch) => {
+  let response= await profileAPI.setProfile(userId)
+  dispatch(SetUserProfile(response.data));
 }
-export const SetProfileStatusThunk=(userId)=> (dispatch) => {
-  // this.props.TogglePreloader(false)
-          profileAPI.setProfileStatus(userId).then(response=>{
-            dispatch(SetProfileStatus(response.data));
-          });
+export const SetProfileStatusThunk=(userId)=> async(dispatch) => {
+  let response= await profileAPI.setProfileStatus(userId)
+  dispatch(SetProfileStatus(response.data));
 }
 
-export const UpdateProfileStatusThunk=(status)=> (dispatch) => {
-  // this.props.TogglePreloader(false)
-          profileAPI.updateProfileStatus(status).then(response=>{
-            if (response.resultCode==0){
-              dispatch(SetProfileStatus(status))
-            }
-          });
+export const UpdateProfileStatusThunk=(status)=> async(dispatch) => {
+  let response= await profileAPI.updateProfileStatus(status)
+  if (response.resultCode==0){
+    dispatch(SetProfileStatus(status))
+  }
 }
 
 export default profileReduser

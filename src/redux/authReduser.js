@@ -1,5 +1,6 @@
-import React from 'react';
 import { authAPI } from '../api/api';
+
+const AUTORISE ='auth/AUTORISE';
 
 let init={
    id:null,
@@ -9,7 +10,7 @@ let init={
 };
 let authReduser=(state=init, action)=>{   
     switch(action.type){
-        case 'AUTORISE':
+        case AUTORISE:
          return{
            ...state,
            ...action.payload,
@@ -19,39 +20,34 @@ let authReduser=(state=init, action)=>{
         return state
 };
 };
-export const autorise=(id,login,email,isAutorised)=> ({type: 'AUTORISE', payload:{id,login,email,isAutorised}});
-// export const isAutorise=(isAutorised)=> ({type: 'IS-AUTORISE', isAutorised});
+export const autorise=(id,login,email,isAutorised)=> ({type: AUTORISE, payload:{id,login,email,isAutorised}});
 
 export const isAutoriseThunk=()=>
-    (dispatch)=>{
-      return authAPI.isAutorised().then(response=>{
-        if (response.data.resultCode==0){
-          let {id,login, email}=response.data.data;
-          dispatch(autorise(id,login,email,true))
-        }
-        // this.props.TogglePreloader(true)
-    });
+    async (dispatch)=>{
+      let response= await authAPI.isAutorised()
+
+      if (response.data.resultCode==0){
+        let {id,login, email}=response.data.data;
+        return dispatch(autorise(id,login,email,true))
+      }
   }
 
-  export const loginThunk=(email,password,rememderMe)=>
-  (dispatch)=>{
-    authAPI.login(email,password,rememderMe).then(response=>{
-      if (response.data.resultCode==0){
-        dispatch(isAutoriseThunk())
-      }
-      // this.props.TogglePreloader(true)
-  });
+export const loginThunk=(email,password,rememderMe)=>
+  async (dispatch)=>{
+    let response= await authAPI.login(email,password,rememderMe)
+
+    if (response.data.resultCode==0){
+      dispatch(isAutoriseThunk())
+    }
 }
 
 export const logoutThunk=()=>
-(dispatch)=>{
-  debugger
-  authAPI.logout().then(response=>{
+  async (dispatch)=>{
+    let response= await authAPI.logout()
+
     if (response.data.resultCode==0){
       dispatch(autorise(null,null,null,false))
     }
-    // this.props.TogglePreloader(true)
-});
 }
 
 export default authReduser

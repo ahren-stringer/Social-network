@@ -1,5 +1,13 @@
 import {usersAPI} from '../api/api'
 
+const FOLLOW='users/FOLLOW';
+const UNFOLLOW='users/UNFOLLOW'
+const SET_USERS='users/SET-USERS';
+const TOTAL_COUNT='users/TOTAL-COUNT';
+const SET_PAGE='users/SET-PAGE';
+const TOGGLE_PRELOADER='users/TOGGLE-PRELOADER'
+const TOGGLE_FETCHING='users/TOGGLE-FETCHING';
+
 let init={
         users:[],
         totalCount: 1,
@@ -11,7 +19,7 @@ let init={
 
 let usersReduser=(state=init, action)=>{  
     switch (action.type){
-        case 'FOLLOW':{
+        case FOLLOW:{
           return{
           ...state,
           users: state.users.map(item=>{
@@ -21,7 +29,7 @@ let usersReduser=(state=init, action)=>{
             return item;
           })
         };}
-        case 'UNFOLLOW':{
+        case UNFOLLOW:{
           return{
           ...state,
           users: state.users.map(item=>{
@@ -31,19 +39,19 @@ let usersReduser=(state=init, action)=>{
             return item
           })
         };}
-        case 'SET-USERS':{
+        case SET_USERS:{
           return {...state, users: action.users} ;
         }
-        case 'TOTAL-COUNT':{
+        case TOTAL_COUNT:{
           return {...state, totalCount:action.totalCount}
         }
-        case 'SET-PAGE':{
+        case SET_PAGE:{
           return {...state, numberOfPage:action.numberOfPage}
         }
-        case 'TOGGLE-PRELOADER':{
+        case TOGGLE_PRELOADER:{
           return {...state, preloader:action.preloader}
         }
-        case 'TOGGLE-FETCHING':{
+        case TOGGLE_FETCHING:{
           return {...state, toggleIsFetching:action.toggleIsFetching
             ? [...state.toggleIsFetching, action.fetchingId]
             : state.toggleIsFetching.filter(id=>id !=action.fetchingId)}
@@ -52,49 +60,44 @@ let usersReduser=(state=init, action)=>{
         return state
     }
 };
-export const follow=(userId)=> ({type: 'FOLLOW', userId})
-export const unfollow=(userId)=> ({type: 'UNFOLLOW', userId})
-export const setUsers=(users)=> ({type: 'SET-USERS', users})
-export const SetTotalCount=(totalCount)=> ({type: 'TOTAL-COUNT', totalCount})
-export const SetPageCount=(numberOfPage)=> ({type: 'SET-PAGE', numberOfPage})
-export const TogglePreloader=(preloader)=> ({type: 'TOGGLE-PRELOADER', preloader})
-export const ToggleFetching=(toggleIsFetching,fetchingId)=> ({type: 'TOGGLE-FETCHING', toggleIsFetching, fetchingId})
+export const follow=(userId)=> ({type: FOLLOW, userId})
+export const unfollow=(userId)=> ({type: UNFOLLOW, userId})
+export const setUsers=(users)=> ({type: SET_USERS, users})
+export const SetTotalCount=(totalCount)=> ({type: TOTAL_COUNT, totalCount})
+export const SetPageCount=(numberOfPage)=> ({type: SET_PAGE, numberOfPage})
+export const TogglePreloader=(preloader)=> ({type: TOGGLE_PRELOADER, preloader})
+export const ToggleFetching=(toggleIsFetching,fetchingId)=> ({type: TOGGLE_FETCHING, toggleIsFetching, fetchingId})
 
-export const SetUsersThunk=(numberOfPage,onOnePage)=>{
-  return (dispatch)=>{
+export const SetUsersThunk=(numberOfPage,onOnePage)=>
+  async (dispatch)=>{
     dispatch(TogglePreloader(false))
     dispatch(SetPageCount(numberOfPage))
-  usersAPI.getUsers(numberOfPage,onOnePage)
-              .then(data=>{
-                dispatch(setUsers(data.items));
-                dispatch(TogglePreloader(true))
-                dispatch(SetTotalCount(12))
-              });
-              }
-};
+    let data= await usersAPI.getUsers(numberOfPage,onOnePage)
+    dispatch(setUsers(data.items));
+    dispatch(TogglePreloader(true))
+    dispatch(SetTotalCount(data.totalCount))
+  };
 
-export const UnfollowThunk=(userId)=>{
-  return (dispatch)=>{
+export const UnfollowThunk=(userId)=>
+  async (dispatch)=>{
     dispatch(ToggleFetching(true,userId))
-    usersAPI.unfollow(userId).then(data=>{
-      if (data.resultCode==0){
-        dispatch(unfollow(userId))
-      }
-      dispatch(ToggleFetching(false,userId))
-    }) 
-  }
-};
+    let data = await usersAPI.unfollow(userId)
 
-export const FollowThunk=(userId)=>{
-  return (dispatch)=>{
-    dispatch(ToggleFetching(true,userId))
-    usersAPI.follow(userId).then(data=>{
-      if (data.resultCode==0){
-        dispatch(follow(userId))
-      }
-      dispatch(ToggleFetching(false,userId))
-    }) 
+    if (data.resultCode==0){
+      dispatch(unfollow(userId))
+    }
+    dispatch(ToggleFetching(false,userId))
   }
-};
+
+export const FollowThunk=(userId)=>
+  async (dispatch)=>{
+    dispatch(ToggleFetching(true,userId))
+    let data= await usersAPI.follow(userId)
+
+    if (data.resultCode==0){
+      dispatch(follow(userId))
+    }
+      dispatch(ToggleFetching(false,userId)) 
+  }
 
 export default usersReduser

@@ -1,9 +1,15 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { useState } from 'react';
 
 const PersonStatusHook=(props)=>{
     let [statusFlag, setStatusFlag]=useState(false);
     let [status, setStatus]=useState(props.status);
+
+    useEffect(()=>{
+        setStatus(props.status)
+    }, [props.status]);
+
     let SpanStatus=()=>{
         setStatusFlag(true)
     }
@@ -15,21 +21,11 @@ const PersonStatusHook=(props)=>{
         setStatus(e.currentTarget.value)
     }
 
-    // componentDidUpdate(prevProps,prevState){
-    //     debugger
-    //     if (prevProps.status!==this.props.status){
-    //         this.setState({
-    //             status:this.props.status
-    //         })
-    //     }
-
-    // }
-
         return <div>
         {
             (!statusFlag)
             ?<div>
-                <span onDoubleClick={SpanStatus}>{props.status || '*****'}</span>
+                <span onDoubleClick={SpanStatus}>{status || '*****'}</span>
             </div>
             :<div>
                 <input autoFocus={true} onBlur={inputStatus} value={status}

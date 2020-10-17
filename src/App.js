@@ -17,7 +17,6 @@ import Preloader from './components/common/PreLoader';
 
 class App extends React.Component {
   componentDidMount(){
-    // this.props.TogglePreloader(false)
     this.props.initializedThunk()
   };
   render(){
@@ -29,7 +28,6 @@ class App extends React.Component {
         <Navbar/>
         <div className='app-content'>
           <Route path='/profile/:users?' render={()=><ProfileContainer/>}/>
-          
           <Route path='/dialogs' render={()=> <Dialogs/>}/>
           <Route path='/news' component={News}/>
           <Route path='/music' component={Music}/>

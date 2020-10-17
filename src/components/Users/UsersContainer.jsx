@@ -1,11 +1,8 @@
 import React from 'react';
-import {follow, unfollow,setUsers, SetTotalCount, SetPageCount,TogglePreloader,ToggleFetching,SetUsersThunk,UnfollowThunk,FollowThunk} from '../../redux/usersReduser';
+import {SetUsersThunk,UnfollowThunk,FollowThunk} from '../../redux/usersReduser';
 import {connect} from 'react-redux';
 import Users from './Users';
-import * as axios from 'axios'
-import usersAPI from '../../api/api';
 import {WithRedirectComponent} from '../../HOC/withRedirect'
-import { Redirect } from 'react-router-dom';
 import { compose } from 'redux';
 
 class UsersContainer extends React.Component{
@@ -16,8 +13,7 @@ class UsersContainer extends React.Component{
         this.props.SetUsersThunk(numberOfPage,this.props.onOnePage)
     };
     render(){
-        // debugger
-        if (!this.props.isAutorised) return <Redirect to='/login'/>
+        // if (!this.props.isAutorised) return <Redirect to='/login'/>
         return <Users onPageChange={this.onPageChange} {...this.props}/>
     };
 }
@@ -38,7 +34,3 @@ export default compose(
     WithRedirectComponent,
     connect(mapStateToProps,{SetUsersThunk,FollowThunk,UnfollowThunk})
     )(UsersContainer)
-
-// let UsersWithRedirect=WithRedirectComponent(UsersContainer)
-
-// export default connect(mapStateToProps,{SetUsersThunk,FollowThunk,UnfollowThunk})(UsersWithRedirect);
