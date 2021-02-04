@@ -8,7 +8,10 @@ import s from './Profile.module.css'
 const Profile=(props)=>{
     return(
         <div>
-          <Person status={props.profileStatus} profile={props.profile} UpdateProfileStatus={props.UpdateProfileStatusThunk}/>
+          <Person status={props.profileStatus} profile={props.profile}
+          UpdateProfileStatus={props.UpdateProfileStatusThunk}
+          isOwner={props.isOwner}
+          UpdateAvaThunk={props.UpdateAvaThunk}/>
           <PostsContainer/>
         </div>
     )

@@ -4,6 +4,7 @@ const SET_USER_PROFILE='profile/SET-USER-PROFILE';
 const ADD_POST='profile/ADD-POST'
 const UPDATE_NEW_POST_TEXT='profile/UPDATE-NEW-POST-TEXT';
 const SET_PROFILE_STATUS='profile/SET-PROFILE-STATUS';
+const SET_AVA='profile/SET-AVA';
 
 let init={
         posts:[
@@ -13,6 +14,7 @@ let init={
         newPostText: '12345',
         profile:null,
         profileStatus:'',
+        photos:null,
 };
 
 let profileReduser=(state=init, action)=>{  
@@ -40,6 +42,9 @@ let profileReduser=(state=init, action)=>{
       case SET_PROFILE_STATUS:{
         return {...state, profileStatus: action.status}
       }
+      case SET_AVA:{
+        return {...state, photos: action.photos}
+      }
       default:
         return state
     }
@@ -48,6 +53,7 @@ export const SetUserProfile=(profile)=> ({type: SET_USER_PROFILE, profile})
 export const addPostAction=()=> ({type: ADD_POST})
 export const updateNewPostTextAction=(text)=> ({type: UPDATE_NEW_POST_TEXT, newText: text})
 export const SetProfileStatus=(status)=> ({type: SET_PROFILE_STATUS, status})
+export const SetAva=(photos)=> ({type: SET_AVA, photos})
 
 export const SetUserProfileThunk=(userId)=> async(dispatch) => {
   let response= await profileAPI.setProfile(userId)
@@ -62,6 +68,13 @@ export const UpdateProfileStatusThunk=(status)=> async(dispatch) => {
   let response= await profileAPI.updateProfileStatus(status)
   if (response.resultCode==0){
     dispatch(SetProfileStatus(status))
+  }
+}
+
+export const UpdateAvaThunk=(ava)=> async(dispatch) => {
+  let response= await profileAPI.updateAva(ava)
+  if (response.data.resultCode==0){
+    dispatch(SetAva(response.data.data.photos))
   }
 }
 

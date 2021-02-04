@@ -34,6 +34,15 @@ export let profileAPI={
     updateProfileStatus(status){
         return instance.put(`profile/status/`, {status:status})
     },
+    updateAva(ava){
+        let formData = new FormData();
+        formData.append("image", ava);
+        return instance.put(`profile/photo`,  formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+        })
+    },
 }
 
 export let authAPI={
@@ -47,6 +56,3 @@ export let authAPI={
         return instance.delete(`auth/login`)
     },
 }
-// export default usersAPI
-
-
